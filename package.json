@@ -6,17 +6,39 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@types/node": "20.4.5",
+    "@prisma/client": "^5.1.1",
     "@types/react": "18.2.17",
     "@types/react-dom": "18.2.7",
+    "autoprefixer": "^10.4.14",
+    "docx-pdf": "^0.0.1",
+    "docxtemplater": "^3.37.12",
     "eslint": "8.46.0",
+    "eslint-config-airbnb": "^19.0.4",
     "eslint-config-next": "13.4.12",
+    "exceljs": "^4.3.0",
+    "file-saver": "^2.0.5",
     "next": "13.4.12",
+    "pg": "^8.11.2",
+    "pizzip": "^3.1.4",
     "react": "18.2.0",
+    "react-doc-viewer": "^0.1.5",
     "react-dom": "18.2.0",
-    "typescript": "5.1.6"
+    "react-icons": "^4.10.1",
+    "typescript": "5.1.6",
+    "uuid": "^9.0.0",
+    "zustand": "^4.3.2"
+  },
+  "devDependencies": {
+    "@types/file-saver": "^2.0.5",
+    "@types/node": "^20.4.5",
+    "@types/pg": "^8.10.2",
+    "@types/uuid": "^9.0.2",
+    "@typescript-eslint/eslint-plugin": "^5.51.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "prisma": "^5.1.1"
   }
 }

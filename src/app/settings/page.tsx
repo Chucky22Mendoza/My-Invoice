@@ -1,19 +1,19 @@
 'use client';
 
 import React from 'react';
-import styles from './page.module.css';
 import Navbar from '@/components/Navbar';
-import Form from '@/components/Form';
+import DocumentViewer from '@/components/DocumentViewer';
+import styles from '../page.module.css';
 
-function Home() {
+function Settings() {
   return (
     <main className={styles.main}>
       <Navbar />
       <div className={styles.container}>
-        <Form />
+        <DocumentViewer />
       </div>
     </main>
   );
 }
 
-export default Home;
+export default Settings;

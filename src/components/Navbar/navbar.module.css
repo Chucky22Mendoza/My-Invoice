@@ -1,0 +1,55 @@
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  background-color: var(--f-blue-20);
+}
+
+.navbar > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 120rem;
+  padding: 1rem 2rem;
+}
+
+.navbar > div > div:last-child {
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar > div > div:last-child {
+  gap: 2rem;
+}
+
+.navbar > div > div:first-child > a {
+  font-weight: 500;
+  font-size: 2.6rem;
+  line-height: 2.9rem;
+  text-align: center;
+  letter-spacing: 0.015rem;
+  color: var(--f-bg-10);
+}
+
+.navbar > div > div:last-child > a {
+  font-weight: 500;
+  font-size: 1.6rem;
+  line-height: 2.1rem;
+  text-align: center;
+  letter-spacing: 0.01rem;
+  color: var(--f-blue-100);
+  border-radius: var(--border-radius);
+  padding: .8rem;
+  transition: all .3s;
+}
+
+.navbar > div > div:last-child > a:hover {
+  background-color: var(--f-blue-80);
+  color: var(--f-white-40);
+}

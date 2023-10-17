@@ -1,0 +1,131 @@
+.input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+  gap: .6rem;
+  width: 100%;
+  position: relative;
+  transition: all .3s;
+}
+
+.input-container > label {
+  opacity: 0;
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 1.6rem;
+  letter-spacing: 0.04rem;
+  padding: 0 0 0 1rem;
+  color: var(--f-primary);
+  transition: all .3s;
+}
+
+.input-container > input,
+.input-container > select {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1.6rem 1rem 1.6rem 1.4rem;
+  width: 100%;
+  background: var(--y-input-bg);
+  border: .2rem solid var(--y-input-border);
+  border-radius: 1rem;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.025rem;
+  color: var(--y-text-primary);
+  transition: all .3s;
+}
+
+.input-container > select {
+  appearance: none;
+  padding-right: 1rem; /* Agrega espacio para la flecha personalizada */
+  background-image: url('../../../public/select-arrow.svg'); /* Ruta a la imagen de la flecha personalizada */
+  background-repeat: no-repeat;
+  background-position-y: center; /* Posición de la flecha personalizada */
+  background-position-x: calc(100% - 1rem) ;
+  background-size: 2.4rem 2.4rem; /* Tamaño de la imagen de la flecha personalizada */
+}
+
+.input-container > select > option {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.input-container > input:disabled {
+  cursor: not-allowed;
+}
+
+.input-container:focus-within > input {
+  border-color: var(--f-secondary);
+}
+
+.input-container:focus-within > input::placeholder {
+  color: transparent;
+}
+
+.input-container:focus-within > label {
+  opacity: 1;
+  color: var(--f-secondary);
+}
+
+.input-container > input::placeholder {
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.025rem;
+  /* yimi/day/text/placeholder20 */
+  color: var(--y-text-placeholder20);
+}
+
+/* .input-container > input:not(.input-container:focus-within):placeholder-shown + label {
+  opacity: 0 !important;
+} */
+
+.input-blocked {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+  gap: .6rem;
+  width: 100%;
+  max-width: 76.3rem;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.input-blocked > label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 0 0 1rem;
+  gap: .6rem;
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 1.6rem;
+  letter-spacing: 0.04rem;
+  /* yimi/day/btn/generic/disabled text */
+  color: var(--y-btn-generic-disabled-text);
+}
+
+.input-blocked > input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1.6rem 1rem 1.6rem 1.4rem;
+  width: 100%;
+  max-width: 76.3rem;
+  box-sizing: border-box;
+  color: var(--y-btn-generic-disabled-text);
+  background: var(--y-btn-generic-disabled-bg);
+  border-radius: 1rem;
+  border-color: transparent;
+}
+
+.input-blocked > img {
+  position: absolute;
+  bottom: 1.3rem;
+  right: 1rem;
+}

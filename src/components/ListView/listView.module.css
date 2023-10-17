@@ -1,0 +1,89 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border-radius: var(--border-radius);
+}
+
+.card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1.2rem;
+  gap: 1rem;
+  background-color: var(--f-blue-10);
+  width: 100%;
+  border-bottom: .1rem solid var(--f-bg-20);
+  transition: all .3s;
+  box-sizing: border-box;
+}
+
+.card:hover {
+  cursor: pointer;
+  background-color: var(--f-blue-20);
+}
+
+.card:last-child {
+  border-bottom: .1rem solid transparent;
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+}
+
+.card:first-child {
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+}
+
+.card > div:first-child {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .2rem;
+}
+
+.card > div:first-child > h1 {
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.7rem;
+  text-align: center;
+  letter-spacing: 0.01rem;
+  color: var(--f-blue-100);
+}
+
+.card > div:first-child > div > p {
+  font-weight: 500;
+  font-size: 1.4rem;
+  line-height: 1.6rem;
+  text-align: center;
+  letter-spacing: 0.025rem;
+  color: var(--f-blue-100);
+}
+
+.card > div:last-child {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+}
+
+.card > div:last-child > button {
+  font-weight: 500;
+  font-size: 2.1rem;
+  line-height: 2.4rem;
+  text-align: center;
+  letter-spacing: 0.01rem;
+  color: var(--f-blue-100);
+  transition: all .3s;
+  padding: .4rem;
+  border-radius: var(--border-radius);
+}
+
+.card > div:last-child > button:hover {
+  background-color: var(--f-blue-10);
+}
+
+.selected {
+  background-color: var(--f-blue-20);
+}

@@ -1,0 +1,141 @@
+.preview {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  border-radius: var(--border-radius);
+  background-color: var(--f-blue-10);
+  box-sizing: border-box;
+}
+
+.preview > h1 {
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 1.7rem;
+  text-align: center;
+  letter-spacing: 0.01rem;
+  color: var(--f-blue-100);
+  padding: 1.6rem;
+  border-bottom: .1rem solid var(--f-secondary);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.preview > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 1rem;
+  background-color: var(--f-white-30);
+  width: 100%;
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+  background-image: url('../../../public/images/marca-agua.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  gap: 2rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.header > div {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  align-items: center;
+}
+
+.header > div > h1 {
+  font-weight: 800;
+  font-size: 1.5rem;
+  line-height: 1.7rem;
+  text-align: center;
+  letter-spacing: 0.01rem;
+  color: var(--y-text-tertiary);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  align-items: center;
+  width: 100%;
+}
+
+.info > div {
+  display: flex;
+  flex-direction: row;
+  gap: .8rem;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.info > div > span {
+  font-weight: 800;
+  font-size: 1.2rem;
+  line-height: 1.4rem;
+  text-align: center;
+  letter-spacing: 0.01rem;
+  color: var(--y-text-tertiary);
+}
+
+.info > div:last-child {
+  justify-content: flex-end;
+}
+
+.document {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  line-height: 1.4rem;
+  text-align: center;
+  letter-spacing: 0.01rem;
+  width: 100%;
+}
+
+.document > h2 {
+  font-weight: 800;
+  font-style: italic;
+}
+
+.document > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  gap: .8rem;
+}
+
+.document > div > span {
+  font-weight: 800;
+  font-style: italic;
+}
+
+.caracteristicas {
+  flex-direction: column !important;
+  align-items: flex-start;
+}
+
+.bill {
+  flex-direction: column !important;
+  align-items: flex-end;
+  padding-bottom: 4rem;
+}
+
+.document > div:last-child {
+  justify-content: center;
+  border-top: .1rem solid var(--y-text-tertiary);
+  padding-top: .5rem;
+}
