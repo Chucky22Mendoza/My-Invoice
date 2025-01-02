@@ -1,17 +1,21 @@
 'use client';
 
 import React, { useState } from 'react';
+import Docxtemplater from 'docxtemplater';
+import PizZip from 'pizzip';
+import { saveAs } from 'file-saver';
+import PizZipUtils from 'pizzip/utils/index.js';
 import InputText from './Input';
 import Button from './Button';
-import styles from './form.module.css';
 import IQuote, { IExportQuote, defaultFormData } from '@/interfaces/data/Quotes';
 import { formatDecimals } from '@/utils/currency';
 import formatDate from '@/utils/date';
-import Docxtemplater from "docxtemplater";
-import PizZip from "pizzip";
-import PizZipUtils from "pizzip/utils/index.js";
-import { saveAs } from "file-saver";
 import { useQuotes } from '@/context/QuotesContext';
+import styles from './form.module.css';
+
+export function loadFile(url: string, callback: (error: Error, content: string) => void) {
+  PizZipUtils.getBinaryContent(url, callback);
+}
 
 function Form() {
   const [formData, setFormData] = useState(defaultFormData);
@@ -26,27 +30,23 @@ function Form() {
   };
 
   const generateDocument = (data: IExportQuote) => {
-    loadFile(
-      '/templates/Facturas THP.docx',
-      function (error, content) {
-        if (error) {
-          throw error;
-        }
-        const zip = new PizZip(content);
-        const doc = new Docxtemplater(zip, {
-          paragraphLoop: true,
-          linebreaks: true,
-        });
-
-        // render the document (replace all occurences of {first_name} by John, {last_name} by Doe, ...)
-        doc.render(data);
-        const blob = doc.getZip().generate({
-          type: 'blob',
-          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        }); //Output the document using Data-URI
-        saveAs(blob, data.nombre_cliente + '-' + data.fecha + '.docx');
+    loadFile('/templates/Facturas THP.docx', (error, content) => {
+      if (error) {
+        throw error;
       }
-    );
+      const zip = new PizZip(content);
+      const doc = new Docxtemplater(zip, {
+        paragraphLoop: true,
+        linebreaks: true,
+      });
+
+      doc.render(data);
+      const blob = doc.getZip().generate({
+        type: 'blob',
+        mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      });
+      saveAs(blob, `${data.nombre_cliente}-${data.fecha}.docx`);
+    });
   };
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -89,7 +89,7 @@ function Form() {
     const data: IQuote = {
       ...formData,
       fecha: dateMonthName,
-      caracteristicas: '* ' + formData.caracteristicas.replaceAll(', ', '\n* ').replaceAll(',', '\n* '),
+      caracteristicas: `* ${formData.caracteristicas.replaceAll(', ', '\n* ').replaceAll(',', '\n* ')}`,
       descripcion_trabajo: formData.descripcion_trabajo,
     };
 
@@ -98,7 +98,7 @@ function Form() {
       domicilio_cliente: String(data.domicilio_cliente),
       anticipo_label: data?.anticipo === 0 ? '' : 'Anticipo: ',
       domicilio_label: data?.domicilio_cliente === '' ? '' : 'Domicilio: ',
-      anticipo: data?.anticipo === 0 ? '' : '$' + formatDecimals(Number(data.anticipo)),
+      anticipo: data?.anticipo === 0 ? '' : `$${formatDecimals(Number(data.anticipo))}`,
       centavos: String(data.centavos),
       total: formatDecimals(data.total),
     };
@@ -114,9 +114,9 @@ function Form() {
       numero_letras: data.numero_letras,
       centavos: data.centavos,
       json_document: {
-        ...dataQuote
+        ...dataQuote,
       },
-    })
+    });
 
     generateDocument(dataQuote);
   };
@@ -134,14 +134,14 @@ function Form() {
               placeholder: 'Título del trabajo: Bodega térmica',
               label: 'Título del trabajo',
               type: 'text',
-              onChange: (e) => {
-                setFormData({
-                  ...formData,
-                  titulo_trabajo: e.target.value,
-                });
-              },
+              value: formData.titulo_trabajo,
             }}
-            value={formData.titulo_trabajo}
+            onChange={(response) => {
+              setFormData({
+                ...formData,
+                titulo_trabajo: response,
+              });
+            }}
           />
 
           <InputText
@@ -150,14 +150,14 @@ function Form() {
               placeholder: 'Nombre del cliente',
               label: 'Nombre del cliente',
               type: 'text',
-              onChange: (e) => {
-                setFormData({
-                  ...formData,
-                  nombre_cliente: e.target.value,
-                });
-              },
+              value: formData.nombre_cliente,
             }}
-            value={formData.nombre_cliente}
+            onChange={(response) => {
+              setFormData({
+                ...formData,
+                nombre_cliente: response,
+              });
+            }}
           />
 
           <InputText
@@ -166,14 +166,14 @@ function Form() {
               placeholder: 'Domicilio del cliente (opcional)',
               label: 'Domicilio del cliente (opcional)',
               type: 'text',
-              onChange: (e) => {
-                setFormData({
-                  ...formData,
-                  domicilio_cliente: e.target.value,
-                });
-              },
+              value: formData.domicilio_cliente,
             }}
-            value={formData?.domicilio_cliente ?? ''}
+            onChange={(response) => {
+              setFormData({
+                ...formData,
+                domicilio_cliente: response,
+              });
+            }}
           />
         </div>
 
@@ -184,14 +184,14 @@ function Form() {
               placeholder: 'Descripción del trabajo: Elaboración de una bodega térmica',
               label: 'Descripción',
               type: 'text',
-              onChange: (e) => {
-                setFormData({
-                  ...formData,
-                  descripcion_trabajo: e.target.value,
-                });
-              },
+              value: formData.descripcion_trabajo,
             }}
-            value={formData.descripcion_trabajo}
+            onChange={(response) => {
+              setFormData({
+                ...formData,
+                descripcion_trabajo: response,
+              });
+            }}
           />
 
           <InputText
@@ -200,14 +200,14 @@ function Form() {
               placeholder: 'Características del trabajo: PTR de 1/2, Placas de 30cm x 30cm x...',
               label: 'Características',
               type: 'text',
-              onChange: (e) => {
-                setFormData({
-                  ...formData,
-                  caracteristicas: e.target.value,
-                });
-              },
+              value: formData.caracteristicas,
             }}
-            value={formData.caracteristicas}
+            onChange={(response) => {
+              setFormData({
+                ...formData,
+                caracteristicas: response,
+              });
+            }}
           />
         </div>
 
@@ -218,14 +218,14 @@ function Form() {
               placeholder: 'Total',
               label: 'Total',
               type: 'number',
-              onChange: (e) => {
-                setFormData({
-                  ...formData,
-                  total: Number(e.target.value),
-                });
-              },
+              value: String(formData.total),
             }}
-            value={String(formData.total)}
+            onChange={(response) => {
+              setFormData({
+                ...formData,
+                total: Number(response),
+              });
+            }}
           />
 
           <InputText
@@ -234,14 +234,14 @@ function Form() {
               placeholder: 'Anticipo (opcional)',
               label: 'Anticipo (opcional)',
               type: 'number',
-              onChange: (e) => {
-                setFormData({
-                  ...formData,
-                  anticipo: Number(e.target.value),
-                });
-              },
+              value: String(formData.anticipo),
             }}
-            value={String(formData.anticipo)}
+            onChange={(response) => {
+              setFormData({
+                ...formData,
+                anticipo: Number(response),
+              });
+            }}
           />
         </div>
 
@@ -252,14 +252,14 @@ function Form() {
               placeholder: 'Total con letra',
               label: 'Total con letra',
               type: 'text',
-              onChange: (e) => {
-                setFormData({
-                  ...formData,
-                  numero_letras: e.target.value,
-                });
-              },
+              value: formData.numero_letras,
             }}
-            value={formData.numero_letras}
+            onChange={(response) => {
+              setFormData({
+                ...formData,
+                numero_letras: response,
+              });
+            }}
           />
 
           <InputText
@@ -268,24 +268,20 @@ function Form() {
               placeholder: 'Centavos',
               label: 'Centavos',
               type: 'number',
-              onChange: (e) => {
-                setFormData({
-                  ...formData,
-                  centavos: Number(e.target.value),
-                });
-              },
+              value: String(formData.centavos),
             }}
-            value={String(formData.centavos)}
+            onChange={(response) => {
+              setFormData({
+                ...formData,
+                centavos: Number(response),
+              });
+            }}
           />
         </div>
         <Button>Generar documento</Button>
       </form>
     </section>
   );
-}
-
-export function loadFile(url: string, callback: (error: Error, content: string) => void) {
-  PizZipUtils.getBinaryContent(url, callback);
 }
 
 export default Form;

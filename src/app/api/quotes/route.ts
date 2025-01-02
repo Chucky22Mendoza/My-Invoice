@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
-import { IQuoteRequest } from "@/interfaces/data/Quotes";
-import { prisma } from "@/libs/prisma";
+import { NextResponse } from 'next/server';
+import { IQuoteRequest } from '@/interfaces/data/Quotes';
+import prisma from '@/libs/prisma';
 
 export async function GET() {
   try {
@@ -22,7 +22,7 @@ export async function GET() {
         },
         {
           status: 500,
-        }
+        },
       );
     }
   }
@@ -31,30 +31,30 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const {
-      titulo_trabajo,
-      nombre_cliente,
-      domicilio_cliente,
-      descripcion_trabajo,
+      titulo_trabajo: tituloTrabajo,
+      nombre_cliente: nombreCliente,
+      domicilio_cliente: domicilioCliente,
+      descripcion_trabajo: descripcionTrabajo,
       caracteristicas,
       anticipo,
       total,
-      numero_letras,
+      numero_letras: numeroLetras,
       centavos,
-      json_document,
+      json_document: jsonDocument,
     }: IQuoteRequest = await request.json();
 
     const newNote = await prisma.quotes.create({
       data: {
-        titulo_trabajo,
-        nombre_cliente,
-        domicilio_cliente,
-        descripcion_trabajo,
+        titulo_trabajo: tituloTrabajo,
+        nombre_cliente: nombreCliente,
+        domicilio_cliente: domicilioCliente,
+        descripcion_trabajo: descripcionTrabajo,
         caracteristicas,
         anticipo,
         total,
-        numero_letras,
+        numero_letras: numeroLetras,
         centavos,
-        json_document,
+        json_document: jsonDocument,
         fk_business: '997851e0-308c-11ee-bbf5-ae7c0f262578',
         fk_user: 'a908ac86-308c-11ee-bbf5-ae7c0f262578',
       },
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
         },
         {
           status: 500,
-        }
+        },
       );
     }
   }

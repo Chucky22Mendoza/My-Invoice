@@ -4,6 +4,9 @@ export default interface IInputText {
   placeholder?: string;
   label?: string;
   disabled?: boolean;
+  required?: boolean;
+  maxLength?: number;
+  value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChangeSelect?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   onKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void;

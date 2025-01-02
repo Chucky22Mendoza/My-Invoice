@@ -8,15 +8,17 @@ function ListView() {
 
   useEffect(() => {
     loadQuotes();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (quotes.length > 0) {
-      setSelectedQuote(quotes[0])
+      setSelectedQuote(quotes[0]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quotes]);
 
-  const listMapped = quotes.map(quote => (
+  const listMapped = quotes.map((quote) => (
     <QuoteCard quote={quote} key={quote.id} />
   ));
 

@@ -6,7 +6,14 @@
   gap: .6rem;
   width: 100%;
   position: relative;
-  transition: all .3s;
+}
+
+.input-container.error > label {
+  color: var(--y-text-danger, #C00);
+}
+
+.input-container.error > input {
+  border-color: var(--y-text-danger, #C00);
 }
 
 .input-container > label {
@@ -15,8 +22,9 @@
   font-size: 1.3rem;
   line-height: 1.6rem;
   letter-spacing: 0.04rem;
-  padding: 0 0 0 1rem;
-  color: var(--f-primary);
+  /* padding: 0 0 0 1rem; */
+  /* yimi/day/primaries/brand blue */
+  color: var(--y-text-primary);
   transition: all .3s;
 }
 
@@ -28,13 +36,17 @@
   align-items: center;
   padding: 1.6rem 1rem 1.6rem 1.4rem;
   width: 100%;
+  max-height: 5rem;
+  /* yimi/day/input/bg */
   background: var(--y-input-bg);
+  /* yimi/day/primaries/brand blue */
   border: .2rem solid var(--y-input-border);
   border-radius: 1rem;
   font-weight: 400;
   font-size: 1.5rem;
   line-height: 2rem;
   letter-spacing: 0.025rem;
+  /* yimi/day/text/placeholder20 */
   color: var(--y-text-primary);
   transition: all .3s;
 }
@@ -42,7 +54,7 @@
 .input-container > select {
   appearance: none;
   padding-right: 1rem; /* Agrega espacio para la flecha personalizada */
-  background-image: url('../../../public/select-arrow.svg'); /* Ruta a la imagen de la flecha personalizada */
+  /* background-image: url('../../../../public/img/profile_menu/select-arrow.svg'); Ruta a la imagen de la flecha personalizada */
   background-repeat: no-repeat;
   background-position-y: center; /* Posición de la flecha personalizada */
   background-position-x: calc(100% - 1rem) ;
@@ -59,16 +71,17 @@
 }
 
 .input-container:focus-within > input {
-  border-color: var(--f-secondary);
+  border-color: var(--y-primaries-brand-blue);
 }
 
 .input-container:focus-within > input::placeholder {
   color: transparent;
 }
 
-.input-container:focus-within > label {
-  opacity: 1;
-  color: var(--f-secondary);
+.input-container:focus-within > label,
+.custom-input:not(:placeholder-shown) + label {
+  opacity: 1 !important;
+  color: var(--y-primaries-brand-blue);
 }
 
 .input-container > input::placeholder {
@@ -80,7 +93,7 @@
   color: var(--y-text-placeholder20);
 }
 
-/* .input-container > input:not(.input-container:focus-within):placeholder-shown + label {
+/* .custom-input:not(.input-container:focus-within):placeholder-shown + label {
   opacity: 0 !important;
 } */
 
@@ -128,4 +141,24 @@
   position: absolute;
   bottom: 1.3rem;
   right: 1rem;
+}
+
+.helper {
+  display: flex;
+  padding: var(--spacing-s-05, 0.2rem) 0rem 0rem var(--spacing-s-2, 0.8rem);
+  align-items: center;
+  gap: 1rem;
+  align-self: stretch;
+}
+
+.helper > span {
+  flex: 1 0 0;
+  color: var(--y-text-secondary, #4D596A);
+  text-align: center;
+  font-family: Roboto;
+  font-size: 1.3rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.6rem;
+  letter-spacing: 0.04rem;
 }

@@ -1,10 +1,15 @@
 'use client';
 
-import { createContext, useState, useContext } from 'react';
-import { CreateQuotes, UpdateQuotes } from '@/interfaces/quotes';
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useMemo,
+} from 'react';
 import { quotes as Model } from '@prisma/client';
+import { CreateQuotes, UpdateQuotes } from '@/interfaces/quotes';
 
-export const QuotesContext = createContext<{
+type PropsContext = {
   quotes: Model[];
   loadQuotes: () => Promise<void>;
   createQuote: (quote: CreateQuotes) => Promise<void>;
@@ -13,44 +18,48 @@ export const QuotesContext = createContext<{
   setSelectedQuote: (quote: Model | null) => void;
   updateQuote: (id: string, quote: UpdateQuotes) => Promise<void>;
   isPreview: boolean;
-  setIsPreview: (isPreview: boolean) => void,
-}>({
+  setIsPreview: (isPreview: boolean) => void;
+};
+
+const initState: PropsContext = {
   quotes: [],
   loadQuotes: async () => {},
-  createQuote: async (quote: CreateQuotes) => {},
-  deleteQuote: async (id: string) => {},
+  createQuote: async () => {},
+  deleteQuote: async () => {},
   selectedQuote: null,
-  setSelectedQuote: (quote: Model | null) => {},
-  updateQuote: async (id: string, quote: UpdateQuotes) => {},
+  setSelectedQuote: () => {},
+  updateQuote: async () => {},
   isPreview: true,
-  setIsPreview: (isPreview: boolean) => {},
-});
+  setIsPreview: () => {},
+};
+
+export const QuotesContext = createContext<PropsContext>(initState);
 
 export const useQuotes = () => {
   const context = useContext(QuotesContext);
   if (!context) {
-    throw new Error("useQuotes must be used within a QuotesProvider");
+    throw new Error('useQuotes must be used within a QuotesProvider');
   }
   return context;
 };
 
-export const QuotesProvider = ({ children }: { children: React.ReactNode }) => {
+export function QuotesProvider({ children }: { children: React.ReactNode }) {
   const [quotes, setQuotes] = useState<Model[]>([]);
   const [selectedQuote, setSelectedQuote] = useState<Model | null>(null);
   const [isPreview, setIsPreview] = useState(true);
 
   async function loadQuotes() {
-    const res = await fetch("/api/quotes");
+    const res = await fetch('/api/quotes');
     const quotesRes = await res.json();
     setQuotes(quotesRes.data);
   }
 
   async function createQuote(quote: CreateQuotes) {
-    const res = await fetch("/api/quotes", {
-      method: "POST",
+    const res = await fetch('/api/quotes', {
+      method: 'POST',
       body: JSON.stringify(quote),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
     const newQuote = await res.json();
@@ -59,39 +68,44 @@ export const QuotesProvider = ({ children }: { children: React.ReactNode }) => {
 
   async function deleteQuote(id: string) {
     const res = await fetch(`/api/quotes/${id}`, {
-      method: "DELETE",
+      method: 'DELETE',
     });
-    const data = await res.json();
+    await res.json();
     setQuotes(quotes.filter((quote) => quote.id !== id));
   }
 
   async function updateQuote(id: string, quote: UpdateQuotes) {
     const res = await fetch(`/api/quotes/${id}`, {
-      method: "PUT",
+      method: 'PUT',
       body: JSON.stringify(quote),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
     const data = await res.json();
-    setQuotes(quotes.map((quote) => (quote.id === id ? data : quote)));
+    setQuotes(quotes.map((q) => (q.id === id ? data : q)));
   }
 
+  const valuesChanged = useMemo(() => ({
+    quotes,
+    loadQuotes,
+    createQuote,
+    deleteQuote,
+    selectedQuote,
+    setSelectedQuote,
+    updateQuote,
+    setIsPreview,
+    isPreview,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [
+    quotes,
+    isPreview,
+    selectedQuote,
+  ]);
+
   return (
-    <QuotesContext.Provider
-      value={{
-        quotes,
-        loadQuotes,
-        createQuote,
-        deleteQuote,
-        selectedQuote,
-        setSelectedQuote,
-        updateQuote,
-        setIsPreview,
-        isPreview,
-      }}
-    >
+    <QuotesContext.Provider value={valuesChanged}>
       {children}
     </QuotesContext.Provider>
   );
-};
+}

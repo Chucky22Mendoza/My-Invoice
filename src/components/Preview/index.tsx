@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import styles from './preview.module.css';
-import { useQuotes } from '@/context/QuotesContext';
 import Image from 'next/image';
+import { useQuotes } from '@/context/QuotesContext';
 import { IExportQuote } from '@/interfaces/data/Quotes';
+import styles from './preview.module.css';
 
 function Preview() {
   const { selectedQuote } = useQuotes();
@@ -13,7 +13,7 @@ function Preview() {
       const doc = selectedQuote?.json_document as unknown as IExportQuote;
       setCurrentDocument(doc);
     }
-  }, [selectedQuote])
+  }, [selectedQuote]);
 
   return (
     <div className={styles.preview}>
@@ -48,20 +48,20 @@ function Preview() {
           </div>
           {
             currentDocument?.domicilio_label === ''
-            ? null
-            : (
-              <div>
-                <p>{`${currentDocument?.domicilio_label}:`}</p>
-                <span>{currentDocument?.domicilio_cliente}</span>
-              </div>
-            )
+              ? null
+              : (
+                <div>
+                  <p>{`${currentDocument?.domicilio_label}:`}</p>
+                  <span>{currentDocument?.domicilio_cliente}</span>
+                </div>
+              )
           }
           <div className={styles.caracteristicas}>
-            <p>1. {currentDocument?.descripcion_trabajo}:</p>
+            <p>{`1. ${currentDocument?.descripcion_trabajo}:`}</p>
             {
-              currentDocument?.caracteristicas.split('\n').map((line) =>
-                <p style={{ paddingLeft: '1.5rem'}}>{line}</p>
-              )
+              currentDocument?.caracteristicas.split('\n').map((line) => (
+                <p key={line} style={{ paddingLeft: '1.5rem' }}>{line}</p>
+              ))
             }
           </div>
           <div className={styles.bill}>

@@ -1,23 +1,23 @@
 {
   "plugins": ["@typescript-eslint"],
-  "extends": ["airbnb", "airbnb-typescript", "airbnb/hooks", "plugin:@next/next/recommended", "next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
+  "extends": ["airbnb", "airbnb-typescript", "airbnb/hooks", "plugin:@next/next/recommended", "plugin:@typescript-eslint/recommended"],
   "rules": {
     "linebreak-style": 0,
-    "react/jsx-props-no-spreading": ["error", {"custom": "ignore"}],
-    "react/prop-types": "off",
     "@typescript-eslint/no-explicit-any": ["off"],
     "@typescript-eslint/no-unused-vars": "error",
     "no-nested-ternary": "off",
-    "import/extensions": [
-      "error",
-      "ignorePackages",
-      {
-        "js": "never",
-        "jsx": "never",
-        "ts": "never",
-        "tsx": "never"
-      }
-    ]
+    "react/prop-types": "off", // Since we do not use prop-types
+    "react/require-default-props": "off", // Since we do not use prop-types
+    "react/jsx-props-no-spreading": ["error", {"custom": "ignore"}],
+    "import/extensions": ["off", "ignorePackages", {
+      "ts": "never",
+      "tsx": "never",
+      "js": "never",
+      "jsx": "never",
+      "mjs": "never"
+    }],
+    "no-console": "off",
+    "@typescript-eslint/no-inferrable-types": "off"
   },
   "env": {
     "browser": true,

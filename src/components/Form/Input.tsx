@@ -1,35 +1,72 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import IInputText, { IInputTextBlocked } from '@/interfaces/InputText';
 import styles from './input.module.css';
+import IInputText, { IInputTextBlocked } from '@/interfaces/InputText';
 
 type Props = {
   propsInput: IInputText;
   style?: object;
-  floatElement?: React.ReactElement;
-  value: string;
+  floatElement?: React.ReactElement | null;
+  helper?: string | null;
+  isInvalid?: boolean;
+  onChange?: (value: string) => void;
 };
 
-function InputText({ propsInput, style, floatElement, value }: Props) {
+function InputText({
+  propsInput,
+  style = {},
+  floatElement = null,
+  onChange = () => {},
+  helper = null,
+  isInvalid = false,
+}: Props) {
+  const [currentValue, setCurrentValue] = useState(propsInput.value ?? '');
+
+  useEffect(() => {
+    if (onChange) {
+      onChange(currentValue);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentValue]);
+
+  useEffect(() => setCurrentValue(propsInput.value ?? ''), [propsInput.value]);
+
   return (
-    <div className={styles['input-container']} style={style}>
+    <div
+      className={`${styles['input-container']} ${isInvalid ? styles.error : ''}`}
+      style={style}
+    >
       {
-        propsInput.label !== ''
-          ? <label htmlFor={propsInput.id}>{propsInput.label}</label>
-          : null
+        propsInput?.label && propsInput?.label !== ''
+          ? (
+            <label
+              htmlFor={propsInput.id}
+              style={{ opacity: currentValue && currentValue !== '' ? '1' : '' }}
+            >
+              {propsInput.label}
+            </label>
+          ) : null
       }
       <input
+        className={styles['custom-input']}
+        maxLength={propsInput.maxLength}
         id={propsInput.id}
         name={propsInput.id}
         type={propsInput.type}
         placeholder={propsInput.placeholder}
-        onChange={propsInput.onChange}
+        onChange={(e) => setCurrentValue(e.target.value)}
         onKeyUp={propsInput.onKeyUp}
         onKeyDown={propsInput.onKeyDown}
         onKeyPress={propsInput.onKeyPress}
         disabled={propsInput.disabled}
-        value={value}
+        required={propsInput.required}
+        value={
+          propsInput.type === 'number'
+            ? currentValue === '0' || currentValue === '' ? propsInput.value : currentValue
+            : currentValue === '' ? propsInput.value : currentValue
+        }
       />
+      {helper ? <div className={styles.helper}><span>{helper}</span></div> : null}
       {floatElement}
     </div>
   );
@@ -40,12 +77,7 @@ type PropsBlocked = {
   style?: object;
 };
 
-InputText.defaultProps = {
-  style: {},
-  floatElement: null,
-};
-
-export function InputBlocked({ propsInput, style }: PropsBlocked) {
+export function InputBlocked({ propsInput, style = {} }: PropsBlocked) {
   return (
     <div className={styles['input-blocked']} style={style}>
       <label htmlFor={propsInput.id}>{propsInput.label}</label>
@@ -62,12 +94,8 @@ export function InputBlocked({ propsInput, style }: PropsBlocked) {
   );
 }
 
-InputBlocked.defaultProps = {
-  style: {},
-};
-
 type IOption = {
-  value: number;
+  value: any;
   label: string;
 };
 
@@ -75,16 +103,31 @@ type PropsSelect = {
   propsInput: IInputText;
   style?: object;
   options: IOption[];
+  onChange?: (value: string) => void;
 };
 
-export function InputSelect({ propsInput, style, options }: PropsSelect) {
+export function InputSelect({
+  propsInput,
+  style = {},
+  options,
+  onChange = () => {},
+}: PropsSelect) {
+  const [currentValue, setCurrentValue] = useState(propsInput.value ?? '');
+
+  useEffect(() => {
+    if (onChange) {
+      onChange(currentValue);
+    }
+  }, [currentValue, onChange]);
+
   return (
     <div className={styles['input-container']} style={style}>
-      <label htmlFor={propsInput.id}>{propsInput.label}</label>
+      <label style={{ opacity: '1' }} htmlFor={propsInput.id}>{propsInput.label}</label>
       <select
         id={propsInput.id}
         name={propsInput.id}
-        onChange={propsInput.onChangeSelect}
+        value={currentValue === '' ? propsInput.value : currentValue}
+        onChange={(e) => setCurrentValue(e.target.value)}
       >
         {
           options.map((opt: IOption) => (
@@ -95,9 +138,5 @@ export function InputSelect({ propsInput, style, options }: PropsSelect) {
     </div>
   );
 }
-
-InputSelect.defaultProps = {
-  style: {},
-};
 
 export default InputText;

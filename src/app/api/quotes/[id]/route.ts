@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
-import { Prisma } from "@prisma/client";
-import { prisma } from "@/libs/prisma";
+import { NextResponse } from 'next/server';
+import { Prisma } from '@prisma/client';
+import prisma from '@/libs/prisma';
 
 interface Params {
   params: { id: string };
@@ -14,7 +14,7 @@ export async function GET(request: Request, { params }: Params) {
       },
     });
 
-    if (!quote) return NextResponse.json({ message: "Quote not found" }, { status: 404 });
+    if (!quote) return NextResponse.json({ message: 'Quote not found' }, { status: 404 });
 
     return NextResponse.json(quote);
   } catch (error) {
@@ -25,7 +25,7 @@ export async function GET(request: Request, { params }: Params) {
         },
         {
           status: 500,
-        }
+        },
       );
     }
   }
@@ -38,20 +38,20 @@ export async function DELETE(request: Request, { params }: Params) {
         id: params.id,
       },
     });
-    if (!deletedQuote) return NextResponse.json({ message: "Note not found" }, { status: 404 });
+    if (!deletedQuote) return NextResponse.json({ message: 'Note not found' }, { status: 404 });
 
     return NextResponse.json(deletedQuote);
   } catch (error) {
     console.log(error);
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === "P2025") {
+      if (error.code === 'P2025') {
         return NextResponse.json(
           {
-            message: "Quote not found",
+            message: 'Quote not found',
           },
           {
             status: 404,
-          }
+          },
         );
       }
 
@@ -61,7 +61,7 @@ export async function DELETE(request: Request, { params }: Params) {
         },
         {
           status: 500,
-        }
+        },
       );
     }
   }
@@ -70,16 +70,16 @@ export async function DELETE(request: Request, { params }: Params) {
 export async function PUT(request: Request, { params }: Params) {
   try {
     const {
-      titulo_trabajo,
-      nombre_cliente,
-      domicilio_cliente,
-      descripcion_trabajo,
+      titulo_trabajo: tituloTrabajo,
+      nombre_cliente: nombreCliente,
+      domicilio_cliente: domicilioCliente,
+      descripcion_trabajo: descripcionTrabajo,
       caracteristicas,
       anticipo,
       total,
-      numero_letras,
+      numero_letras: numeroLetras,
       centavos,
-      json_document,
+      json_document: jsonDocument,
     } = await request.json();
 
     const updatedQuote = await prisma.quotes.update({
@@ -87,16 +87,16 @@ export async function PUT(request: Request, { params }: Params) {
         id: params.id,
       },
       data: {
-        titulo_trabajo,
-        nombre_cliente,
-        domicilio_cliente,
-        descripcion_trabajo,
+        titulo_trabajo: tituloTrabajo,
+        nombre_cliente: nombreCliente,
+        domicilio_cliente: domicilioCliente,
+        descripcion_trabajo: descripcionTrabajo,
         caracteristicas,
         anticipo,
         total,
-        numero_letras,
+        numero_letras: numeroLetras,
         centavos,
-        json_document,
+        json_document: jsonDocument,
         fk_business: '997851e0-308c-11ee-bbf5-ae7c0f262578',
         fk_user: 'a908ac86-308c-11ee-bbf5-ae7c0f262578',
       },
@@ -105,14 +105,14 @@ export async function PUT(request: Request, { params }: Params) {
     return NextResponse.json(updatedQuote);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === "P2025") {
+      if (error.code === 'P2025') {
         return NextResponse.json(
           {
-            message: "Quote not found",
+            message: 'Quote not found',
           },
           {
             status: 404,
-          }
+          },
         );
       }
 
@@ -122,7 +122,7 @@ export async function PUT(request: Request, { params }: Params) {
         },
         {
           status: 500,
-        }
+        },
       );
     }
   }

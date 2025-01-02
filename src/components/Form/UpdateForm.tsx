@@ -72,7 +72,7 @@ function UpdateForm() {
     const data: IQuote = {
       ...formData,
       fecha: dateMonthName,
-      caracteristicas: '* ' + formData.caracteristicas.replaceAll(', ', '\n* ').replaceAll(',', '\n* '),
+      caracteristicas: `* ${formData.caracteristicas.replaceAll(', ', '\n* ').replaceAll(',', '\n* ')}`,
       descripcion_trabajo: formData.descripcion_trabajo,
     };
 
@@ -81,7 +81,7 @@ function UpdateForm() {
       domicilio_cliente: String(data.domicilio_cliente),
       anticipo_label: data?.anticipo === 0 ? '' : 'Anticipo: ',
       domicilio_label: data?.domicilio_cliente === '' ? '' : 'Domicilio: ',
-      anticipo: data?.anticipo === 0 ? '' : '$' + formatDecimals(Number(data.anticipo)),
+      anticipo: data?.anticipo === 0 ? '' : `$${formatDecimals(Number(data.anticipo))}`,
       centavos: String(data.centavos),
       total: formatDecimals(data.total),
     };
@@ -97,9 +97,9 @@ function UpdateForm() {
       numero_letras: data.numero_letras,
       centavos: data.centavos,
       json_document: {
-        ...dataQuote
+        ...dataQuote,
       },
-    })
+    });
   };
 
   return (
@@ -115,14 +115,14 @@ function UpdateForm() {
               placeholder: 'Título del trabajo: Bodega térmica',
               label: 'Título del trabajo',
               type: 'text',
-              onChange: (e) => {
-                setFormData({
-                  ...formData,
-                  titulo_trabajo: e.target.value,
-                });
-              },
+              value: formData.titulo_trabajo,
             }}
-            value={formData.titulo_trabajo}
+            onChange={(response) => {
+              setFormData({
+                ...formData,
+                titulo_trabajo: response,
+              });
+            }}
           />
 
           <InputText
@@ -131,14 +131,14 @@ function UpdateForm() {
               placeholder: 'Nombre del cliente',
               label: 'Nombre del cliente',
               type: 'text',
-              onChange: (e) => {
-                setFormData({
-                  ...formData,
-                  nombre_cliente: e.target.value,
-                });
-              },
+              value: formData.nombre_cliente,
             }}
-            value={formData.nombre_cliente}
+            onChange={(response) => {
+              setFormData({
+                ...formData,
+                nombre_cliente: response,
+              });
+            }}
           />
         </div>
         <div>
@@ -148,14 +148,14 @@ function UpdateForm() {
               placeholder: 'Domicilio del cliente (opcional)',
               label: 'Domicilio del cliente (opcional)',
               type: 'text',
-              onChange: (e) => {
-                setFormData({
-                  ...formData,
-                  domicilio_cliente: e.target.value,
-                });
-              },
+              value: formData.domicilio_cliente,
             }}
-            value={formData?.domicilio_cliente ?? ''}
+            onChange={(response) => {
+              setFormData({
+                ...formData,
+                domicilio_cliente: response,
+              });
+            }}
           />
         </div>
         <div>
@@ -165,14 +165,14 @@ function UpdateForm() {
               placeholder: 'Descripción del trabajo: Elaboración de una bodega térmica',
               label: 'Descripción',
               type: 'text',
-              onChange: (e) => {
-                setFormData({
-                  ...formData,
-                  descripcion_trabajo: e.target.value,
-                });
-              },
+              value: formData.descripcion_trabajo,
             }}
-            value={formData.descripcion_trabajo}
+            onChange={(response) => {
+              setFormData({
+                ...formData,
+                descripcion_trabajo: response,
+              });
+            }}
           />
 
           <InputText
@@ -181,14 +181,14 @@ function UpdateForm() {
               placeholder: 'Características del trabajo: PTR de 1/2, Placas de 30cm x 30cm x...',
               label: 'Características',
               type: 'text',
-              onChange: (e) => {
-                setFormData({
-                  ...formData,
-                  caracteristicas: e.target.value,
-                });
-              },
+              value: formData.caracteristicas,
             }}
-            value={formData.caracteristicas}
+            onChange={(response) => {
+              setFormData({
+                ...formData,
+                caracteristicas: response,
+              });
+            }}
           />
         </div>
 
@@ -199,14 +199,14 @@ function UpdateForm() {
               placeholder: 'Total',
               label: 'Total',
               type: 'number',
-              onChange: (e) => {
-                setFormData({
-                  ...formData,
-                  total: Number(e.target.value),
-                });
-              },
+              value: String(formData.total),
             }}
-            value={String(formData.total)}
+            onChange={(response) => {
+              setFormData({
+                ...formData,
+                total: Number(response),
+              });
+            }}
           />
 
           <InputText
@@ -215,14 +215,14 @@ function UpdateForm() {
               placeholder: 'Anticipo (opcional)',
               label: 'Anticipo (opcional)',
               type: 'number',
-              onChange: (e) => {
-                setFormData({
-                  ...formData,
-                  anticipo: Number(e.target.value),
-                });
-              },
+              value: String(formData.anticipo),
             }}
-            value={String(formData.anticipo)}
+            onChange={(response) => {
+              setFormData({
+                ...formData,
+                anticipo: Number(response),
+              });
+            }}
           />
         </div>
 
@@ -233,14 +233,14 @@ function UpdateForm() {
               placeholder: 'Total con letra',
               label: 'Total con letra',
               type: 'text',
-              onChange: (e) => {
-                setFormData({
-                  ...formData,
-                  numero_letras: e.target.value,
-                });
-              },
+              value: formData.numero_letras,
             }}
-            value={formData.numero_letras}
+            onChange={(response) => {
+              setFormData({
+                ...formData,
+                numero_letras: response,
+              });
+            }}
           />
 
           <InputText
@@ -249,14 +249,14 @@ function UpdateForm() {
               placeholder: 'Centavos',
               label: 'Centavos',
               type: 'number',
-              onChange: (e) => {
-                setFormData({
-                  ...formData,
-                  centavos: Number(e.target.value),
-                });
-              },
+              value: String(formData.centavos),
             }}
-            value={String(formData.centavos)}
+            onChange={(response) => {
+              setFormData({
+                ...formData,
+                centavos: Number(response),
+              });
+            }}
           />
         </div>
         <Button>Guardar documento</Button>
